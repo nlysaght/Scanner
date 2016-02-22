@@ -30,6 +30,7 @@ namespace Analyzer
         {
             var captures = new List<string>();
             var strongCaptures = new List<PhoneCapture>();
+            input += "|Break";
             using (var reader = new StringReader(input))
             {
                 var startCapture = false;

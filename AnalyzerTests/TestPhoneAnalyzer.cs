@@ -32,6 +32,21 @@ namespace AnalyzerTests
         {
             var captures = GetCapturesFromPlainText(Properties.Resources.Zarion);
         }
+        [Fact]
+        public void InvalidSnippitReturnsZeroCaptures()
+        {
+            var a = new Analyzer.PhoneAnalyzer();
+            var captures = a.Capture("Yes this is a phone number");
+            Assert.Equal(0, captures.Count);
+        }
+        [Fact]
+        public void ValidSnippitReturnsOneCapture()
+        {
+            var a = new Analyzer.PhoneAnalyzer();
+            var captures = a.Capture("+353 1 8876456");
+            Assert.Equal(1, captures.Count);
+        }
+
         private IList<Analyzer.PhoneCapture> GetCapturesFromPlainText(string htmlContent)
         {
             HtmlDocument doc = new HtmlDocument();
