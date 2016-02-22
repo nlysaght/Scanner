@@ -64,8 +64,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filter\ComHelper.cs" />
+    <Compile Include="Filter\FilterLoader.cs" />
+    <Compile Include="Filter\FilterReader.cs" />
+    <Compile Include="Filter\IFilter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TestCartAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestPhoneAnalyzer.cs" />
     <Compile Include="TestRunners.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +89,18 @@
       <Project>{97c98e48-9a3f-457c-aed0-4af0cae03402}</Project>
       <Name>Analyzer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestInputs\MCLDirect.html" />
+    <Content Include="TestInputs\MicksGarage.html" />
+    <Content Include="TestInputs\SalesOptimize.html" />
+    <Content Include="TestInputs\Zarion.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

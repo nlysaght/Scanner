@@ -51,6 +51,7 @@
     <Compile Include="Analyzers\CartAnalyzer.cs" />
     <Compile Include="Analyzers\FacebookAnalyzer.cs" />
     <Compile Include="IOutput.cs" />
+    <Compile Include="PhoneAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\FileSystemInputProvider.cs" />
     <Compile Include="Providers\MongoInputProvider.cs" />
