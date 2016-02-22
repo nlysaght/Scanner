@@ -44,7 +44,7 @@ namespace Analyzer
                     {
                         var numericsCount = currentCapture.Count(x => char.IsNumber(x));
                         // Need 8 or more numerics to count as a phone number
-                        if (numericsCount >=8 && numericsCount <= 18)
+                        if (numericsCount >=8 && numericsCount <= 15)
                         {
                             captures.Add(currentNemonic + " " + new string(currentCapture.ToArray()));
                             var capture = new PhoneCapture() { Nemonic = currentNemonic, Number = new string(currentCapture.ToArray()) };
