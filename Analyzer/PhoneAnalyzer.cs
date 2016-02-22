@@ -15,7 +15,7 @@ namespace Analyzer
     public class PhoneAnalyzer : IPhoneAnalyzer
     {
         private char[] ignore = new char[] {'(', ')', '-', '.', ' ' };
-        private List<string> allowedNemonics = new List<string>() {"Phone", "Fax", "Tel", "Telephone"  };
+        private List<string> allowedNemonics = new List<string>() {"phone", "fax", "tel", "telephone"  };
         public IList<string> Capture(string input)
         {
             var captures = new List<string>();
@@ -25,14 +25,15 @@ namespace Analyzer
                 var endCapture = false;
                 var resetCapture = false;
                 var currentCapture = new List<char>();
+                var workingNemonic = string.Empty;
                 var currentNemonic = string.Empty;
-                while(reader.Peek() != -1)
+                while (reader.Peek() != -1)
                 {
                     if(endCapture) 
                     {
                         // Need 6 or more numerics to count as a phone number
                         if (currentCapture.Count(x => char.IsNumber(x)) > 6) 
-                            captures.Add(new string(currentCapture.ToArray()));
+                            captures.Add(currentNemonic + " " + new string(currentCapture.ToArray()));
                         resetCapture = true;
                     }
                     if(resetCapture)
@@ -42,6 +43,7 @@ namespace Analyzer
                         endCapture = false;
                         currentCapture = new List<char>();
                         currentNemonic = string.Empty;
+                        workingNemonic = string.Empty;
                     }
                     var c = (char)reader.Read();
                     if(!startCapture  && ( c == '+' || char.IsNumber(c)))
@@ -62,6 +64,19 @@ namespace Analyzer
                         {
                             if(startCapture)
                                 currentCapture.Add(c);
+                            else
+                            {
+                                // Start Capture nemonic. (phone, fax etc).
+                                workingNemonic += c.ToString().ToLower();
+                                if(allowedNemonics.Contains(workingNemonic))
+                                {
+                                    currentNemonic = workingNemonic;
+                                }
+                                if(!(from n in allowedNemonics where n.StartsWith(workingNemonic) select n).Any() )
+                                {
+                                    workingNemonic = string.Empty;
+                                }
+                            }
                         }
                     }
                 }
@@ -70,10 +85,6 @@ namespace Analyzer
                     if (currentCapture.Count(x => char.IsNumber(x)) > 6)
                         captures.Add(new string(currentCapture.ToArray()));
 
-                }
-                else
-                {
-                    // Start Capture nemonic. (phone, fax etc).
                 }
             }
             return captures;
