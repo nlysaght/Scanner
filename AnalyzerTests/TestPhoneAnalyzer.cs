@@ -32,7 +32,7 @@ namespace AnalyzerTests
         {
             var captures = GetCapturesFromPlainText(Properties.Resources.Zarion);
         }
-        private IList<string> GetCapturesFromPlainText(string htmlContent)
+        private IList<Analyzer.PhoneCapture> GetCapturesFromPlainText(string htmlContent)
         {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(htmlContent);

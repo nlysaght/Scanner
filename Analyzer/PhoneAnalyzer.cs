@@ -9,16 +9,27 @@ namespace Analyzer
 {
     public interface IPhoneAnalyzer
     {
-        IList<string> Capture(string input);
+        IList<PhoneCapture> Capture(string input);
+    }
+
+    public class PhoneCapture
+    {
+        public string Nemonic { get; set; }
+        public string Number { get; set; }
+        public override string ToString()
+        {
+            return $"{Nemonic} {Number}".Trim();
+        }
     }
 
     public class PhoneAnalyzer : IPhoneAnalyzer
     {
         private char[] ignore = new char[] {'(', ')', '-', '.', ' ' };
         private List<string> allowedNemonics = new List<string>() {"phone", "fax", "tel", "telephone"  };
-        public IList<string> Capture(string input)
+        public IList<PhoneCapture> Capture(string input)
         {
             var captures = new List<string>();
+            var strongCaptures = new List<PhoneCapture>();
             using (var reader = new StringReader(input))
             {
                 var startCapture = false;
@@ -31,9 +42,14 @@ namespace Analyzer
                 {
                     if(endCapture) 
                     {
-                        // Need 6 or more numerics to count as a phone number
-                        if (currentCapture.Count(x => char.IsNumber(x)) > 6) 
+                        var numericsCount = currentCapture.Count(x => char.IsNumber(x));
+                        // Need 8 or more numerics to count as a phone number
+                        if (numericsCount >=8 && numericsCount <= 18)
+                        {
                             captures.Add(currentNemonic + " " + new string(currentCapture.ToArray()));
+                            var capture = new PhoneCapture() { Nemonic = currentNemonic, Number = new string(currentCapture.ToArray()) };
+                            strongCaptures.Add(capture);
+                        }
                         resetCapture = true;
                     }
                     if(resetCapture)
@@ -87,8 +103,7 @@ namespace Analyzer
 
                 }
             }
-            return captures;
+            return strongCaptures;
         }
     }
-
 }
